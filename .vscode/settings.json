@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "array": "c",
+    "deque": "c",
+    "vector": "c",
+    "string_view": "c"
+  }
+}
