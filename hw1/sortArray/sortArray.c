@@ -20,7 +20,7 @@ void getLineOfFile(char* TEMP_PATH, int nthLine, char* output, int outputSize) {
 void printIntArr(int* array, int length) {
   int i;
   for(i = 0; i < length; i++) {
-    printf("%d\n", array[i]);
+    printf("%d\t", array[i]);
   }
 }
 
@@ -48,18 +48,18 @@ void sortArray(int arr[], int length, int direction) {
 
 int main(int argc, char* argv[]) 
 {
+  char *file = argv[1];
+
   // get length of array
   char lengthStr[100] = "";
-  getLineOfFile("./hw1/file1.txt", 0, lengthStr, 100);
+  getLineOfFile(file, 0, lengthStr, 100);
   int length = atoi(lengthStr);
 
   // read array
   char dataStr[100] = "";
-  getLineOfFile("./hw1/file1.txt", 1, dataStr, 100);
+  getLineOfFile(file, 1, dataStr, 100);
   int array[length];
   int arrayIndex = 0;
-
-  printf("%s\n\n", dataStr);
 
   int i = 0;
   char crntData[10];

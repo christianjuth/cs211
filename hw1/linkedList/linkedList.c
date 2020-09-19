@@ -93,20 +93,52 @@ void buildList(struct Instruction* instructionFront, struct Node* nodeFront) {
   } 
 }
 
+void removeDuplicates(struct Node* front) {
+  struct Node* prevNode = front;
+  front = front->next;
+
+  while (front != NULL) {
+    if (front->data == prevNode->data) {
+      prevNode->next = front->next;
+      free(front);
+      continue;
+    }
+
+    prevNode = front;
+    front = front->next;
+  }
+}
+
 void printList(struct Node* front) {
   if (front == NULL) {
     return;
   }
-  printf("%d\n", front->data);
-  printList(front->next);
+  printf("%d", front->data);
+  if (front->next != NULL) {
+    printf("\t");
+    printList(front->next);
+  }
+}
+
+void printListSize(struct Node* front) {
+  int size = 0;
+
+  while (front != NULL) {
+    size++;
+    front = front->next;
+  }
+
+  printf("%d\n", size);
 }
 
 int main(int argc, char* argv[]) 
 {
+  char *file = argv[1];
+
   // get instructions from file
   struct Instruction* instructionFront; 
   instructionFront = (struct Instruction*)malloc(sizeof(struct Instruction));
-  buildInstructions("./hw1/linkedList/file1.txt", instructionFront);
+  buildInstructions(file, instructionFront);
 
   // take instructions and use them to build our linked list
   struct Node* nodeFront = NULL;
@@ -114,6 +146,8 @@ int main(int argc, char* argv[])
   nodeFront->next = NULL;
   buildList(instructionFront, nodeFront);
 
+  printListSize(nodeFront->next);
+  removeDuplicates(nodeFront);
   printList(nodeFront->next); 
 
   return 0; 
