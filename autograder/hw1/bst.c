@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 struct Node {
   int data; 
@@ -58,6 +59,11 @@ int main(int argc, char* argv[])
   char *fileName = argv[1];
   FILE* file = fopen(fileName, "r"); 
   char output[50] = "";
+
+  if(access(fileName, F_OK) == -1) {
+    printf("error");
+    return 0;
+  }
 
   int i = 0; 
   while (fgets(output, 50, file)) {

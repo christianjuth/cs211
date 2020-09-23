@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include <string.h>
+#include <unistd.h>
 
 struct Node {
   int data; 
@@ -147,6 +148,11 @@ int main(int argc, char* argv[])
 {
   char *file = argv[1];
   // char *file = "./autograder/testcases/linkedList/test1.txt";
+
+  if(access(file, F_OK) == -1) {
+    printf("error");
+    return 0;
+  }
 
   // get instructions from file
   struct Instruction* instructionFront; 

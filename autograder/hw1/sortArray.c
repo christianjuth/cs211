@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 void getLineOfFile(char* TEMP_PATH, int nthLine, char* output, int outputSize) {
   FILE* file = fopen(TEMP_PATH, "r"); 
@@ -49,6 +50,11 @@ void sortArray(int arr[], int length, int direction) {
 int main(int argc, char* argv[]) 
 {
   char *file = argv[1];
+
+  if(access(file, F_OK) == -1) {
+    printf("error");
+    return 0;
+  }
 
   // get length of array
   char lengthStr[100] = "";
