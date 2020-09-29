@@ -24,9 +24,9 @@ double** multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
 double** transposeMatrix(double** mat, int row, int col);
 double** inverseMatrix(double **matA, int dimension);
 
-void print(double **matA, int dimension) {
-  for (int i = 0; i < dimension; i++) {
-    for (int j = 0; j < dimension; j++) {
+void print(double **matA, int row, int col) {
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
       printf("%0.2lf\t", matA[i][j]);
     } 
     printf("\n");
@@ -67,12 +67,14 @@ int main(int argc, char** argv){
     i++;
   }
 
-  double** data = (double **)malloc(rows * sizeof(double *));
+  double** X = (double **)malloc(rows * sizeof(double *));
+  double** Y = (double **)malloc(rows * sizeof(double *));
 
   int j = 0;
   while (fgets(output, 100, file)) {
     // first two rows are lengths
-    data[j] = (double *)malloc(cols * sizeof(double));
+    X[j] = (double *)malloc(cols * sizeof(double));
+    Y[j] = (double *)malloc(1 * sizeof(double));
 
     char number[48] = "";
     int numberIndex = 0;
@@ -82,7 +84,7 @@ int main(int argc, char** argv){
     // skip j = 1 since that is the tab character
     for (k = 0; k < sizeof(output); k++) {
       if (output[k] == ',') {
-        data[j][crntCol] = atoi(number);
+        X[j][crntCol] = atoi(number);
         
         // reset
         number[0] = 0;
@@ -97,31 +99,59 @@ int main(int argc, char** argv){
       numberIndex++;
     }
 
+    Y[j][0] = atoi(number);
+
     j++;
   }
 
-  fclose(file); 
+  fclose(file);
 
   // test
-  print(data, 3);
-  printf("\n");
+  // print(X, rows, cols);
+  // printf("\n");
+  // print(Y, rows, 1);
+  // printf("\n");
 
-  double** invert = inverseMatrix(data, 3);
-  print(invert, 3);
+  double** Xt = transposeMatrix(X, rows, cols);
+  double** XtX = multiplyMatrix(Xt, X, cols, rows, rows, cols);
+  double** XtXinverse = inverseMatrix(XtX, cols);
+  double** XtXinverseXt = multiplyMatrix(XtXinverse, Xt, cols, cols, cols, rows);
+  double** XtXinverseXtY = multiplyMatrix(XtXinverseXt, Y, cols, rows, rows, 1);
+
+  print(XtXinverseXtY, cols, 1);
 
   // cleanup
-  free(data);
-  // free(invert);
+  free(X);
+  free(Y);
+  free(Xt);
+  free(XtX);
+  // free(XtXinverse);
+  // free(XtXinverseXt);
+  // free(XtXinverseXtY);
 	
 	return 0;
 }
 
 
-
+// output = r1 X c2
 double** multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
 {
   double** result=malloc(r1*sizeof(double*)); 
-  
+
+  for (int y1 = 0; y1 < r1; y1++) {
+    result[y1] = (double *)malloc(c2 * sizeof(double));
+
+    for (int x2 = 0; x2 < c2; x2++) {
+      double sum = 0;
+
+      for (int y2 = 0; y2 < r2; y2++) {
+        sum += matA[y1][y2] * matB[y2][x2];
+      }
+
+      result[y1][x2] = sum;
+    }
+
+  }
   // your code goes here
   
   return result;
@@ -132,8 +162,14 @@ double** transposeMatrix(double** mat, int row, int col)
 {
   
 	double** matTran=malloc(col*sizeof(double*)); 
-    
-  // your code goes here
+
+  for (int x = 0; x < col; x++) {
+    matTran[x] = (double *)malloc(row * sizeof(double));
+
+    for (int y = 0; y < row; y++) {
+      matTran[x][y] = mat[y][x];
+    }
+  }
   
   return matTran;        
 }
