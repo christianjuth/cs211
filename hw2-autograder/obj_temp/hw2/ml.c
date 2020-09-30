@@ -27,7 +27,7 @@ double** inverseMatrix(double **matA, int dimension);
 void print(double **matA, int row, int col) {
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      printf("%0.0lf, ", matA[i][j]);
+      printf("%0.0lf", matA[i][j]);
     } 
     printf("\n");
   }
