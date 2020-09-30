@@ -27,7 +27,7 @@ double** inverseMatrix(double **matA, int dimension);
 void print(double **matA, int row, int col) {
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      printf("%0.0lf, ", matA[i][j]);
+      printf("%0.0lf", matA[i][j]);
     } 
     printf("\n");
   }
@@ -60,7 +60,7 @@ int main(int argc, char** argv){
   while (fgets(output, 100, file)) {
     // read cols
     if (i == 0) {
-      cols = atoi(output);
+      cols = atoi(output) + 1;
     }
 
     // read rows
@@ -83,7 +83,9 @@ int main(int argc, char** argv){
     char number[100] = "";
     int numberIndex = 0;
 
-    int crntCol = 0;
+    X[j][0] = 1.0;
+
+    int crntCol = 1;
     int k;
 
     // skip j = 1 since that is the tab character
@@ -150,10 +152,12 @@ int main(int argc, char** argv){
     // first two rows are lengths
     TEST[b] = (double *)malloc(cols * sizeof(double));
 
+    TEST[b][0] = 1.0;
+
     char number[100] = "";
     int numberIndex = 0;
 
-    int crntCol = 0;
+    int crntCol = 1;
     for (int k = 0; k < sizeof(output2); k++) {
       if (output2[k] == ',') {
         TEST[b][crntCol] = strtod(number, &eptr);
@@ -179,7 +183,7 @@ int main(int argc, char** argv){
   fclose(file2);
 
   // printf("\n");
-  // print(TEST, rows2, cols);
+  // print(TEST, rows2, cols - 1);
 
   double** TESTW = multiplyMatrix(TEST, XtXinverseXtY, rows2, cols, cols, 1);
 
