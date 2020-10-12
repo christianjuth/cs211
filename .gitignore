@@ -1,0 +1,7 @@
+*
+!*.*
+!*/
+!Makefile
+
+*.out
+obj_temp/
