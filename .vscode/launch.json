@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/${fileBasenameNoExtension}",
-      "args": ["./hw2-autograder/testcases/trainB.txt", "./hw2-autograder/testcases/testB.txt"],
+      "args": ["./hw3-autograder/testcases/first/test5.txt"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

@@ -3,19 +3,17 @@
 import os, sys, glob, time, subprocess, signal
 import popen2
 
-hwName = 'hw1'
-programs = ['sortArray', 'linkedList', 'hashTable', 'stringOps', 'bst']
+hwName = 'hw3'
+programs = ['first', 'second', 'third']
 
 # if a program has single liner input and output, we put all test cases in single file. Otherwise, we have a file for test and associated file with results
-formats = {'sortArray':'file',
-           'linkedList':'file',
-           'hashTable':'file',
-           'stringOps':'line',
-           'bst':'file'}
+formats = {'first':'file',
+           'second':'line',
+           'third':'line'}
 
-weight = {'sortArray':1, 'linkedList':1, 'hashTable':1, 'stringOps':1, 'bst':1}
+weight = {'first':1, 'second':1, 'third':1}
 
-scores = {'sortArray':0, 'linkedList':0, 'hashTable':0, 'stringOps':0, 'bst':0}
+scores = {'first':0, 'second':0, 'third':0}
 
 test_cases_directory = ""
 
@@ -259,5 +257,5 @@ if __name__ == '__main__':
         total_score += value
         print str(value), ' in ', key
 
-    print "Your total score = ", total_score, " / 50"
-
+    print "Your total score = ", total_score, " / 25"
+    print "Your assignment will be graded with additional unreleased test cases"
