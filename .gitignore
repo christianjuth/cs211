@@ -5,3 +5,5 @@
 
 *.out
 obj_temp/
+
+**/input/trace*.txt
