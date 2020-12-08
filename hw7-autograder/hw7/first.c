@@ -43,6 +43,7 @@ void setTmpVar(struct TmpVar *crnt, char *name, int value) {
   struct TmpVar* new = (struct TmpVar*)malloc(sizeof(struct TmpVar));
   strcpy(new->name, name);
   new->value = value;
+  new->next = NULL;
   prev->next = new;
 }
 
@@ -127,13 +128,20 @@ int main(int argc, char* argv[])
   struct Instruction* prev = NULL;
 
   while (fgets(output, 50, file)) {
-    struct Instruction* crnt = (struct Instruction*)malloc(sizeof(struct Instruction));
-    // crnt->args[0] = malloc(80);
+    struct Instruction* crnt = (struct Instruction*)malloc(sizeof(struct Instruction)); 
+    crnt->next = NULL;
     readParamNames(output, crnt->args);
 
     if (front == NULL) {
       front = crnt;
-    } else {
+    } 
+
+    else if (prev == NULL) {
+      front->next = crnt;
+      prev = crnt;
+    }
+    
+    else {
       prev->next = crnt;
       prev = crnt;
     }
@@ -143,8 +151,9 @@ int main(int argc, char* argv[])
   int inputValues[inputLength];
   int outputValues[inputLength];
 
-  struct Instruction* crnt;
+  struct Instruction* crnt = NULL;
   struct TmpVar* tmpVarFront = (struct TmpVar*)malloc(sizeof(struct TmpVar));
+  tmpVarFront->next = NULL;
 
   for (int i = 0; i < max; i++) {
     crnt = front;
@@ -153,7 +162,7 @@ int main(int argc, char* argv[])
     while (crnt != NULL) {
       int computedValue = 0;
 
-      char command[20] = "";
+      char command[20];
       strcpy(command, crnt->args[0]);
 
       int arg1 = getInputVarValue(inputValues, inputNames, inputLength, crnt->args[1]);
@@ -166,7 +175,7 @@ int main(int argc, char* argv[])
       // HANDLE NOT
       if (strcmp(command, "NOT") == 0) {
         strcpy(outputName, crnt->args[2]);
-        computedValue = ~arg1;
+        computedValue = arg1 != 1;
       } 
       
       else {
@@ -193,11 +202,11 @@ int main(int argc, char* argv[])
           computedValue = (arg1 | arg2) != 1;
         }
 
-        else if (strcmp(command, "NOR") == 0) {
+        else if (strcmp(command, "XOR") == 0) {
           if ((arg1 & arg2) == 1) {
             computedValue = 0;
           } else {
-            computedValue = arg1 | arg2;
+            computedValue = (arg1 | arg2);
           }
         }
       }
