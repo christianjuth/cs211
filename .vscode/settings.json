@@ -4,6 +4,7 @@
     "deque": "c",
     "vector": "c",
     "string_view": "c",
-    "unordered_map": "c"
+    "unordered_map": "c",
+    "sstream": "c"
   }
 }
